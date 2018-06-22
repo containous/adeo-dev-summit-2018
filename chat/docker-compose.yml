@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+
+  www:
+    build: ./front
+
+  api:
+    build: ./api
+
+  websocket:
+    build: ./websocket
+
+networks:
+  default:
+    external:
+      name: demo-network

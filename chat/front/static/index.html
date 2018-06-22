@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="./css/traefik.css">
+
+    <title>Chat Store</title>
+</head>
+
+<body>
+
+<section class="send-message p-3">
+    <div class="row container-fluid">
+        <div class="col">
+            <form id="chat" action="#">
+                <div class="row container-fluid">
+                    <div class="col-9 align-middle">
+                        <input type="text" id="message" class="form-control"/>
+                    </div>
+                    <div class="col-2 align-middle">
+                        <input type="submit" class="btn btn-primary p-2" value="Send"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="channel-selection p-2">
+    <div class="row container-fluid justify-content-center">
+        <div id="channel" class="col-12 justify-content-center"></div>
+    </div>
+</section>
+
+<section class="channel-messages p-1">
+    <div class="row container-fluid" style="height: 98%">
+        <div class="col-10" style="height: 98%; overflow-y: overlay">
+            <span id="wsdata">
+
+            </span>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="./js/jquery.min.js"></script>
+<script src="./js/popper.min.js"
+        crossorigin="anonymous"></script>
+<script src="./js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var protocol = window.location.protocol || document.location.protocol;
+        $.get(protocol + "//api.chat.store.com", "", function (data) {
+            html = ""
+            $.each(data, function (index, elem) {
+                html += '<button id="bt' + index + '" class="btn btn-success p-2 m-2">'.concat(elem, "</button>")
+            })
+
+            $("#channel").html(html)
+
+            $.each(data, function (index, elem) {
+                $("#bt" + index).click(function () {
+                    connect(elem)
+                })
+            })
+        })
+
+
+    });
+
+    function connect(channel) {
+        var protocol = window.location.protocol || document.location.protocol;
+        protocolWS = "ws:"
+        if (protocol == "https:") {
+            protocolWS = "wss:"
+        }
+        var socket = new WebSocket(protocolWS + "//websocket.chat.store.com");
+
+        socket.onopen = function () {
+            $("#wsdata").html("Welcome to the <i><b>" + channel + "</b></i> channel");
+        }
+
+        socket.onmessage = function (msg) {
+            $("#wsdata").html($("#wsdata").html() + '<div class="row message-separator"><div class="col-10">' + msg.data + '</div></div>')
+        }
+        $("#chat").submit(function () {
+            socket.send($("#message").val())
+            $("#message").val("")
+            return false;
+        })
+    }
+</script>
+</body>
+</html>

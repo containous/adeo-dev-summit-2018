@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  reverse-proxy:
+    image: traefik:1.6.4 # The official Traefik docker image
+    ports:
+      - "80:80"      # The HTTP port
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+    default:
+        external:
+            name: demo-network

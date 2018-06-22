@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="./css/traefik.css">
+
+        <title>The Cube Store</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        Your shoping cart contains <span id="quantity" >.</span> article(s)
+                    </li>
+                </ul>
+            </div>
+            <div>
+                API deployed on <span id="server" >.</span>
+            </div>
+        </nav>
+
+        <section>
+                <div class="row container-fluid">
+                    <div class="d-flex justify-content-center" id="market">
+                    </div>
+                </div>
+        </section>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="./js/jquery.min.js"></script>
+        <script src="./js/popper.min.js" crossorigin="anonymous"></script>
+        <script src="./js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $.get("/api/articles", "" , function (data) {
+                    html = ""
+                    $.each(data, function(index, elem) {
+                        console.log(data)
+                        html += ""
+                                .concat('<div class="col-3">')
+                                .concat(' <div class="card">')
+                                .concat('  <img class="card-img-top img-fluid " src="./img/').concat(elem.Image).concat('" />')
+                                .concat('  <div class="card-body">')
+                                .concat('   <h5 class="card-title">').concat(elem.Name).concat('</h5>')
+                                .concat('   <p class="card-text">').concat(elem.Description).concat('</p>')
+                                .concat('  </div>')
+                                .concat('  <div class="card-footer">')
+                                .concat('   <a href="#" class="cart btn btn-primary">Add to Cart</a>')
+                                .concat('  </div>')
+                                .concat(' </div>')
+                                .concat('</div>');
+                    })
+                    $("#market").html(html)
+                    $.get("/api/get", function (data) {
+                        $("#quantity").html(data)
+                    })
+
+                    $.get("/api/server", function (data) {
+                        $("#server").html(data)
+                    })
+
+                    $(".cart").click(function(evt) {
+                        $.get("/api/add", function (data) {
+                            $("#quantity").html(data)
+                        })
+                    })
+
+                })
+            });
+        </script>
+    </body>
+</html>

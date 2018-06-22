@@ -1,0 +1,4 @@
+Before the demo:
+
+1. docker rm -f (docker ps -aq)
+2. Start env-demo
