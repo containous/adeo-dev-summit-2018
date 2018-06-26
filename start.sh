@@ -15,3 +15,6 @@ docker-compose up -d
 
 cd ../traefik/
 docker-compose up -d
+
+cd ../cube
+docker-compose up -d
