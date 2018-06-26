@@ -17,4 +17,4 @@ cd ../traefik/
 docker-compose up -d
 
 cd ../cube
-docker-compose up -d
+docker-compose up -d --scale api=5
