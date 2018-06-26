@@ -3,9 +3,10 @@ version: '3'
 services:
   reverse-proxy:
     image: traefik:1.6.4 # The official Traefik docker image
-    command: --docker.domain="store.com"
+    command: --docker.domain="store.com" --api.dashboard
     ports:
       - "80:80"      # The HTTP port
+      - "8080:8080"      # The Dashboard port
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
