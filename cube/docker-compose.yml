@@ -5,7 +5,6 @@ services:
    build: ./front
    labels:
     - "traefik.frontend.rule=Host:www.cubestore.com"
-    - traefik.frontend.auth.basic=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/
 
   api:
    build: ./api
