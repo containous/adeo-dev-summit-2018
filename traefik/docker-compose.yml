@@ -3,6 +3,7 @@ version: '3'
 services:
   reverse-proxy:
     image: traefik:1.6.4 # The official Traefik docker image
+    command: --docker.domain="store.com"
     ports:
       - "80:80"      # The HTTP port
     volumes:

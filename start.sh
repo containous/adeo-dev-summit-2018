@@ -1,7 +1,5 @@
 #!/bin/bash
 
-git stash
-
 docker rm -f $(docker ps -aq)
 
 
@@ -11,3 +9,9 @@ mkdir ./traefik/acme
 
 cd ./env-demo/
 ./manage_acme_docker_environment.sh --dev
+
+cd ../chat
+docker-compose up -d
+
+cd ../traefik/
+docker-compose up -d
